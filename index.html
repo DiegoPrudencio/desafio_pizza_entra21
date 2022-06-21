@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Tabela de pizzas</title>
+    </head>
+    <body>
+        <header>
+            <div class="cabecalho">
+                <p class="titulo">Cadastro de informações para tabela.</p>
+            </div>
+        </header>
+        <main>
+            <div class="formulario">
+                <form action="">
+                    <div class="nome">
+                        <label for="idNome" class="label">Nome comercial:</label>
+                        <input type="text" class="input" id="idNome" name="nmNome" required>
+                    </div>
+                    <div class="tamanho">
+                        <label class="label" for="idTamanho">Tamanho (cm):</label>
+                        <input type="text" class="input" id="idTamanho" name="nmTamanho" required>
+                    </div>
+                    <div class="preco">
+                        <label class="label" for="idPreco">Preço:</label>
+                        <input type="text" class="input" id="idPreco" name="nmPreco">
+                    </div>
+                    <div class="botao">
+                        <input type="button" id="idBtnEnviar" name="nmBtnEnviar" value="Enviar">
+                        <input type="button" id="idBtnLimpar" name="nmBtnLimpar" value="Limpar">
+                        <input type="button" id="idBtnRelatorio" name="nmBtnRelatorio" value="Gerar Relatório">
+                    </div>
+                    <div class="output">
+                        <output id="idOut"></output>
+                    </div>
+                </form>
+            </div>
+        </main>
+        <script>
+
+            //Declaração de variáveis globais 
+            var nomes = []
+            var tamanhos = []
+            var precos = []
+            var areas = []
+            var custoBeneficio = []
+
+            //Variáveis botões
+            var btnEnviar = document.getElementById("idBtnEnviar")
+            var btnLimpar = document.getElementById("idBtnLimpar")
+            var btnRelatorio = document.getElementById("idBtnRelatorio")
+
+            /*
+             * Rotina de Inicialização e verificação das informações
+             * Descrição: Inicializa variáveis globais e tela 
+             * Parâmetros: none
+             * Retorno: none
+             */            
+            btnEnviar.onclick = function(){
+                let nome = document.getElementById("idNome").value
+                let tamanho = Number(document.getElementById("idTamanho").value) 
+                let preco = Number(document.getElementById("idPreco").value)
+
+                //Chama as funções de validação
+                let validarNome = nomeValido(nome)
+                let validarTamanho = tamanhoValido(tamanho)
+                let validarPreco = precoValido(preco)
+
+                if (validarNome && validarTamanho && validarPreco) {
+
+                    nomes.push(nome)
+                    tamanhos.push(tamanho)
+                    precos.push(preco)
+
+                }
+
+                document.getElementById("idNome").value = ""
+                document.getElementById("idTamanho").value = ""
+                document.getElementById("idPreco").value = ""
+
+                    console.log(nomes);
+                    console.log(tamanhos);
+                    console.log(precos);
+            }
+
+            btnLimpar.onclick = function(){
+                document.getElementById("idNome").value = ""
+                document.getElementById("idTamanho").value = ""
+                document.getElementById("idPreco").value = ""
+            }
+
+            btnRelatorio.onclick = function(){
+
+                areas = calculoArea(tamanhos)
+                custoBeneficio = calculoCustoBeneficio(precos,areas)
+                console.log(areas)
+                console.log(custoBeneficio)
+            }
+
+
+            //Validação das informações adicionadas
+
+            function nomeValido(nome) {
+                if (nome == "" || nome == "") {
+                    alert("Nome Inválido")
+                    document.getElementById("#idNome").value = ""
+                    document.getElementById("#idNome").focus()
+                    return false
+                }
+                return true
+            }
+
+            function tamanhoValido(tamanho) {
+                if (tamanho <= 0) {
+                    alert("Tamanho Inválido")
+                    document.getElementById("#idTamanho").value = ""
+                    document.getElementById("#idTamanho").focus()
+                    return false
+                }
+                return true
+            }
+
+            function precoValido(preço) {
+                if (preço <= 0) {
+                    alert("Preço Inválido")
+                    document.getElementById("#idPreço").value = ""
+                    document.getElementById("#idPreço").focus()
+                    return false
+                }
+                return true
+            }
+            
+            //Função para cálculo de área
+            function calculoArea() {
+                for (let i = 0; i < tamanhos.length; i++) {
+                    let areaPizza = 3.14*(((tamanhos[i])/2)**2)
+                    areas.push(areaPizza.toFixed(2))     
+                }
+                return areas
+            }
+
+            //Função para cálculo de custo-benefício
+            function calculoCustoBeneficio(areas, precos) {
+                for (let i = 0; i < precos.length; i++) {
+                    let beneficio = precos[i]/areas[i]
+                    custoBeneficio.push(beneficio.toFixed(2))
+                }
+                return custoBeneficio
+            }
+        </script>
+    </body>
+</html>
