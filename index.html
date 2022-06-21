@@ -15,41 +15,37 @@
         </header>
         <main>
             <div class="formulario">
-                <form action="">
+                <form action="" id="idFormAdd" method="GET">
                     <div class="nome">
-                        <label for="idNome" class="label">Nome comercial:</label>
-                        <input type="text" class="input" id="idNome" name="nmNome" required>
+                        <label for="idInpNome" class="label">Nome comercial:</label>
+                        <input type="text" class="input" id="idInpNome" name="nmInpNome" required>
                     </div>
                     <div class="tamanho">
-                        <label class="label" for="idTamanho">Tamanho (cm):</label>
-                        <input type="text" class="input" id="idTamanho" name="nmTamanho" required>
+                        <label class="label" for="idInpTamanho">Tamanho (cm):</label>
+                        <input type="text" class="input" id="idInpTamanho" name="nmInpTamanho" required>
                     </div>
                     <div class="preco">
-                        <label class="label" for="idPreco">Preço:</label>
-                        <input type="text" class="input" id="idPreco" name="nmPreco">
+                        <label class="label" for="idInpPreco">Preço:</label>
+                        <input type="text" class="input" id="idInpPreco" name="nmInpPreco">
                     </div>
                     <div class="image">
                         <img src="./images/pizzas.png" alt="pizzas" width="510">
                     </div>
                     <div class="btn">
-                        <input class="button" type="button" id="idBtnEnviar" name="nmBtnEnviar" value="Enviar">
+                        <input class="button" type="submit" id="idBtnEnviar" name="nmBtnEnviar" value="Enviar">
                         <input class="button" type="button" id="idBtnLimpar" name="nmBtnLimpar" value="Limpar">
                         <input class="button" type="button" id="idBtnRelatorio" name="nmBtnRelatorio" value="Gerar Relatório">
                     </div>
                 </form>
             </div>
-            <div class="output">
+            <div class="output" hidden>
                 <output id="idOut"></output>
             </div>
         </main>
         <script>
 
             //Declaração de variáveis globais 
-            var nomes = []
-            var tamanhos = []
-            var precos = []
-            var areas = []
-            var custoBeneficio = []
+            var tiposPizza = []
 
             //Variáveis botões
             var btnEnviar = document.getElementById("idBtnEnviar")
@@ -60,39 +56,47 @@
              * Rotina de Inicialização e verificação das informações
              * Descrição: Inicializa variáveis globais e tela 
              * Parâmetros: none
-             * Retorno: none
-             */            
-            btnEnviar.onclick = function(){
-                let nome = document.getElementById("idNome").value
-                let tamanho = Number(document.getElementById("idTamanho").value) 
-                let preco = Number(document.getElementById("idPreco").value)
-
+             * Retorno: objeto
+             */  
+            btnEnviar.addEventListener("click", function(event){
+                event.preventDefault();
+            
                 //Chama as funções de validação
-                let validarNome = nomeValido(nome)
-                let validarTamanho = tamanhoValido(tamanho)
-                let validarPreco = precoValido(preco)
+                let validarNome = nomeValido()
+                let validarTamanho = tamanhoValido()
+                let validarPreco = precoValido()
+
 
                 if (validarNome && validarTamanho && validarPreco) {
+                    //capturar o formulario completo 
+                    var formulario = document.querySelector("#idFormAdd")
 
-                    nomes.push(nome)
-                    tamanhos.push(tamanho)
-                    precos.push(preco)
+                    //Extrair dados do formulario 
+                    var usuario = obtemUsuario(formulario)
 
+                    tiposPizza.push(usuario)
+                    console.log(tiposPizza);
+
+                    //resetar formulario
+                    formulario.reset()
                 }
 
-                document.getElementById("idNome").value = ""
-                document.getElementById("idTamanho").value = ""
-                document.getElementById("idPreco").value = ""
+            })
 
-                    console.log(nomes);
-                    console.log(tamanhos);
-                    console.log(precos);
+            //Extraindo dados do Formulário através do name
+            function obtemUsuario(formulario) {
+                let usuario = {
+                    name     : formulario.nmInpNome.value, 
+                    tamanho  : formulario.nmInpTamanho.value, 
+                    preco    : formulario.nmInpPreco.value
+                }
+                return usuario
             }
 
             btnLimpar.onclick = function(){
-                document.getElementById("idNome").value = ""
-                document.getElementById("idTamanho").value = ""
-                document.getElementById("idPreco").value = ""
+                document.getElementById("idInpNome").value = ""
+                document.getElementById("idInpTamanho").value = ""
+                document.getElementById("idInpPreco").value = ""
             }
 
             btnRelatorio.onclick = function(){
@@ -102,39 +106,61 @@
                 console.log(areas)
                 console.log(custoBeneficio)
             }
-
-
+            
             //Validação das informações adicionadas
 
-            function nomeValido(nome) {
+            function nomeValido() {
+                let nome = document.getElementById("idInpNome").value
                 if (nome == "" || nome == "") {
                     alert("Nome Inválido")
-                    document.getElementById("#idNome").value = ""
-                    document.getElementById("#idNome").focus()
+                    document.getElementById("idInpNome").value = ""
+                    document.getElementById("idInpNome").focus()
                     return false
                 }
                 return true
             }
 
-            function tamanhoValido(tamanho) {
+            function tamanhoValido() {
+                let tamanho = document.getElementById("idInpTamanho").value
                 if (tamanho <= 0) {
                     alert("Tamanho Inválido")
-                    document.getElementById("#idTamanho").value = ""
-                    document.getElementById("#idTamanho").focus()
+                    document.getElementById("idInpTamanho").value = ""
+                    document.getElementById("idInpTamanho").focus()
                     return false
                 }
                 return true
             }
 
-            function precoValido(preço) {
-                if (preço <= 0) {
+            function precoValido() {
+                let preco = document.getElementById("idInpPreco").value
+                if (preco <= 0) {
                     alert("Preço Inválido")
-                    document.getElementById("#idPreço").value = ""
-                    document.getElementById("#idPreço").focus()
+                    document.getElementById("idInpPreco").value = ""
+                    document.getElementById("idInpPreco").focus()
                     return false
                 }
                 return true
             }
+
+            
+
+            /*
+
+            var nomes = []
+            var tamanhos = []
+            var precos = []
+            var areas = []
+            var custoBeneficio = []
+
+
+
+            
+       
+
+
+
+
+
             
             //Função para cálculo de área
             function calculoArea() {
@@ -152,7 +178,7 @@
                     custoBeneficio.push(beneficio.toFixed(2))
                 }
                 return custoBeneficio
-            }
+            }*/
         </script>
     </body>
 </html>

@@ -56,3 +56,40 @@ body {
 .button:hover {
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
   }
+
+.output {
+    border: 2px solid black;
+    margin-left: 400px;
+    margin-right: 400px;
+    margin-top: 10px;
+}
+
+/* midias queries */
+
+@media (max-width: 1024px) {
+    .body {
+        width: 90%;
+    }
+}
+
+@media (max-width: 650px) {
+    body {
+        background-color: white;
+    }
+
+    .cabecalho {
+        width: 90%;
+    }
+
+    .formulario {
+        width: 90%;
+    }
+
+    .cabecalho {
+        display: none;
+    }
+
+    .cabecalho {
+        width: 100%;
+    }
+}
