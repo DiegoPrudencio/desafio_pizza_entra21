@@ -44,8 +44,10 @@
         </main>
         <script>
 
-            //Declaração de variáveis globais 
-            var tiposPizza = []
+            //Declaração de variáveis globais
+            var cadastros = []
+            var tamanhos = []
+            var areas = []
 
             //Variáveis botões
             var btnEnviar = document.getElementById("idBtnEnviar")
@@ -72,25 +74,28 @@
                     var formulario = document.querySelector("#idFormAdd")
 
                     //Extrair dados do formulario 
-                    var usuario = obtemUsuario(formulario)
+                    var cadastro = obtemCadastro(formulario)
 
-                    tiposPizza.push(usuario)
-                    console.log(tiposPizza);
+                    console.log(cadastro[2]);
+                    cadastros.push(cadastro)
+                    console.log(cadastros);
+                    
 
                     //resetar formulario
                     formulario.reset()
+
                 }
 
             })
 
             //Extraindo dados do Formulário através do name
-            function obtemUsuario(formulario) {
-                let usuario = {
-                    name     : formulario.nmInpNome.value, 
-                    tamanho  : formulario.nmInpTamanho.value, 
-                    preco    : formulario.nmInpPreco.value
+            function obtemCadastro(formulario) {
+                let cadastro = {
+                    nome: formulario.nmInpNome.value,
+                    tamanho: Number(formulario.nmInpTamanho.value),
+                    preco: Number(formulario.nmInpPreco.value),
                 }
-                return usuario
+                return cadastro
             }
 
             btnLimpar.onclick = function(){
@@ -101,12 +106,37 @@
 
             btnRelatorio.onclick = function(){
 
-                areas = calculoArea(tamanhos)
-                custoBeneficio = calculoCustoBeneficio(precos,areas)
+                areas = calculoArea(cadastros)
+                //custoBeneficio = calculoCustoBeneficio(precos,areas)
                 console.log(areas)
-                console.log(custoBeneficio)
+                //console.log(custoBeneficio)
             }
-            
+
+            //Função para cálculo de área
+            function calculoArea(cadastros) {
+
+                cadastros.forEach(cadastro => {
+                    let raio = cadastro[2]/2
+                    let areaPizza = Math.PI * raio * raio
+                    areas.push(areaPizza.toFixed(2)) 
+                });
+
+                // valorObj.value.forEach(function(boletim){
+                //         cotacaoCompraText = cotacaoCompraText + boletim.cotacaoCompra + "; "
+                //     })
+
+                // for (let i = 0; i < cadastros.length; i++) {
+                //     for (let j = 0; j < cadastros[i].length; j++) {
+                //         if (matriz[i][2]) {
+                //             let areaPizza = 3.14*(((Number(cadastros[i][2]))/2)**2)
+                //             areas.push(areaPizza.toFixed(2))  
+                //         }
+                //     }
+                // }
+                return areas
+                
+            }
+
             //Validação das informações adicionadas
 
             function nomeValido() {
@@ -162,14 +192,7 @@
 
 
             
-            //Função para cálculo de área
-            function calculoArea() {
-                for (let i = 0; i < tamanhos.length; i++) {
-                    let areaPizza = 3.14*(((tamanhos[i])/2)**2)
-                    areas.push(areaPizza.toFixed(2))     
-                }
-                return areas
-            }
+
 
             //Função para cálculo de custo-benefício
             function calculoCustoBeneficio(areas, precos) {
