@@ -55,6 +55,7 @@
                         </tr>
                     </thead>
                     <tbody id="tboIdLinha">
+                        <tr>
                             <td class="tdClsInfoNome"></td>
                             <td class="tdClsInfoTamanho"></td>
                             <td class="tdClsInfoPreco"></td>
@@ -212,12 +213,16 @@
             function montaTr(cadastros){
                 let cadastroTr = document.createElement("tr")
             
+                for (let i = 0; i < cadastros.length; i++) {
+                    let cadastro = cadastros[i]
+                
                 cadastroTr.classList.add("trClsCadatroData")
-                cadastroTr.appendChild(montaTd(cadastros[0], "tdClsInfoNome")) 
-                cadastroTr.appendChild(montaTd(cadastros[1], "tdClsInfoTamanho"))   
-                cadastroTr.appendChild(montaTd(cadastros[2], "tdClsInfoPreco"))   
-                cadastroTr.appendChild(montaTd(cadastros[3], "tdClsInfoArea"))   
-                cadastroTr.appendChild(montaTd(cadastros[4], "tdClsInfoCusto"))
+                cadastroTr.appendChild(montaTd(cadastro[0], "tdClsInfoNome")) 
+                cadastroTr.appendChild(montaTd(cadastro[1], "tdClsInfoTamanho"))   
+                cadastroTr.appendChild(montaTd(cadastro[2], "tdClsInfoPreco"))   
+                cadastroTr.appendChild(montaTd(cadastro[3], "tdClsInfoArea"))   
+                cadastroTr.appendChild(montaTd(cadastro[4], "tdClsInfoCusto"))
+                }
                 return cadastroTr
             }
 
