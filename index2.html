@@ -10,7 +10,7 @@
     <body>
         <header>
             <div class="cabecalho">
-                <p class="titulo">Cadastro de informações para tabela.</p>
+                <p class="titulo">Cadastro de informações das pizzas</p>
             </div>
         </header>
         <main>
@@ -41,7 +41,7 @@
             <div class="output" hidden>
                 <output id="idOut"></output>
             </div>
-            <div class="m-10" id="idDivTab">
+            <div class="m-10" id="idDivTab" hidden>
             
 
                 <table border=1 class="tbCslCadastros" id="tbIdCadastros">
@@ -55,29 +55,13 @@
                         </tr>
                     </thead>
                     <tbody id="tboIdLinha">
-                        <tr>
+                        <!-- <tr>
                             <td class="tdClsInfoNome"></td>
                             <td class="tdClsInfoTamanho"></td>
                             <td class="tdClsInfoPreco"></td>
                             <td class="tdClsInfoArea"></td>
                             <td class="tdClsInfoCusto"></td>
-                        </tr>
-
-                        <!-- <tr class="trClUsuarioData">
-                        
-                            <td class="tdClInfoUserId">JoaoTB</td>
-                            <td class="tdClInfoSenha">Teste123</td>
-                            <td class="tdClInfoNome">Joao Alberto</td>
-                            <td class="tdClInfoCpf">004.742.879-15</td>
-                            <td class="tdClInfoTipoUser">Desenvolvedor</td>
-                        </tr>
-                        <tr class="trClUsuarioData">
-                        
-                            <td class="tdClInfoUserId">MarianaS</td>
-                            <td class="tdClInfoSenha">Teste123</td>
-                            <td class="tdClInfoNome">Mariana Silveira</td>
-                            <td class="tdClInfoCpf">004.742.879-16</td>
-                            <td class="tdClInfoTipoUser">Administrador</td>--> -->
+                        </tr> -->
                         
                     </tbody>
                 </table>
@@ -143,6 +127,7 @@
             }
 
             btnRelatorio.onclick = function(){
+            document.getElementById("idDivTab").hidden = false
 
             //Função para cálculo de área e custo benefício
                 cadastros.forEach(cadastro => {
@@ -154,7 +139,7 @@
                     cadastro.push(beneficio.toFixed(2))
                 }); 
                 
-
+            //Função para ordernar
                 cadastros = cadastros.sort(function (a, b) {
                     if (a[4] > b[4]) {
                         return 1
@@ -165,15 +150,20 @@
                     return 0
                 })
 
-                console.table(cadastros)
+                //console.table(cadastros)
 
-                //Criar nova linha para a tabela 
-                var cadastroTr = montaTr(cadastros)
+                //For para gerar linhas e colunas da tabela
+                for (let i = 0; i < cadastros.length; i++) {
+                    let cadastro = cadastros[i]
+                    if (cadastro) {
+                        //Criar nova linha para a tabela 
+                        var cadastroTr = montaTr(cadastro)
 
-                //Adicionar a linha na tabela 
-                var tBody = document.getElementById("tboIdLinha")
-                tBody.appendChild(cadastroTr)
-
+                        //Adicionar a linha na tabela 
+                        var tBody = document.getElementById("tboIdLinha")
+                        tBody.appendChild(cadastroTr)
+                    }
+                }
             }
 
 
@@ -209,12 +199,10 @@
                 return true
             }
 
+            //Formação da tabela
             //Cria uma linha (um tr)
-            function montaTr(cadastros){
+            function montaTr(cadastro){
                 let cadastroTr = document.createElement("tr")
-            
-                for (let i = 0; i < cadastros.length; i++) {
-                    let cadastro = cadastros[i]
                 
                 cadastroTr.classList.add("trClsCadatroData")
                 cadastroTr.appendChild(montaTd(cadastro[0], "tdClsInfoNome")) 
@@ -222,7 +210,6 @@
                 cadastroTr.appendChild(montaTd(cadastro[2], "tdClsInfoPreco"))   
                 cadastroTr.appendChild(montaTd(cadastro[3], "tdClsInfoArea"))   
                 cadastroTr.appendChild(montaTd(cadastro[4], "tdClsInfoCusto"))
-                }
                 return cadastroTr
             }
 

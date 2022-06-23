@@ -64,6 +64,22 @@ body {
     margin-top: 10px;
 }
 
+.tbCslCadastros {
+    margin-top: 20px;
+    margin-left: 33px;
+    border: 1px solid black;
+    width: 95%;
+    border-collapse: collapse;
+}
+
+.thClsInfoNome {
+    padding: 5px;
+}
+
+.tdClsInfoNome {
+    padding: 1px;
+}
+
 /* midias queries */
 
 @media (max-width: 1024px) {
